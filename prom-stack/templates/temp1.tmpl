@@ -1,0 +1,8 @@
+      "{{ define "temp1" }}
+      {{ .CommonAnnotations.summary }}
+      {{- if .CommonLabels.severity }}
+        Severity: {{ .CommonLabels.severity }}
+      {{- end }}
+      URL: {{ .CommonAnnotations.url }}
+      Time: {{ .StartsAt.Local }}  
+	{{- end }} "

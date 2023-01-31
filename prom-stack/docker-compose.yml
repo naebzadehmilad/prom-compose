@@ -1,0 +1,42 @@
+version: '3'
+volumes:
+    prometheus_data: {}
+    grafana_data: {}
+
+services:
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./config/alert.rules:/etc/prometheus/alert.rules
+      - prometheus_data:/prometheus
+      - /etc/localtime:/etc/localtime:ro 
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9090:9090
+
+  alertmanager:
+    image: prom/alertmanager
+    volumes:
+      - ./config/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+      - ./config/templates:/opt/
+      - /etc/localtime:/etc/localtime:ro 
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+    ports:
+      - 9093:9093
+
+  grafana:
+    image: grafana/grafana
+    volumes:
+      - ./grafana_data:/var/lib/grafana
+      - /etc/localtime:/etc/localtime:ro 
+    ports:
+      - 3000:3000
+
+  blackbox_exporter:
+    image: prom/blackbox-exporter
+    ports:
+      - 9115:9115
+
