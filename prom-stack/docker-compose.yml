@@ -32,6 +32,9 @@ services:
     volumes:
       - ./grafana_data:/var/lib/grafana
       - /etc/localtime:/etc/localtime:ro 
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=x
     ports:
       - 3000:3000
 
